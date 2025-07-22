@@ -54,6 +54,9 @@
   <div id="sidebar">
     <h3>Daftar Lokasi</h3>
     <div id="listContainer"></div>
+    <hr>
+    <h3>Poligon 2025</h3>
+    <div id="polygonContainer"></div>
   </div>
   <button id="toggleSidebarBtn">📋 Tampilkan Data</button>
 
@@ -220,7 +223,7 @@
       });
   </script>
 
-  <!-- Layer Data 2025 -->
+  <!-- Layer Poligon 2025 -->
   <script>
     fetch('Data 2025.geojson')
       .then(res => res.json())
@@ -239,11 +242,23 @@
             }
             layer.bindPopup(`<div style="border:1px solid #ccc; padding:5px; border-radius:5px">${info}</div>`);
 
-            const listContainer = document.getElementById('listContainer');
+            const polygonContainer = document.getElementById('polygonContainer');
             const listItem = document.createElement('div');
             listItem.className = 'list-item';
-            listItem.innerHTML = `<b>Poligon 2025</b><br><a href="#" onclick="map.fitBounds(layer.getBounds()); return false;">📍 Zoom ke Area</a>`;
-            listContainer.appendChild(listItem);
+
+            const zoomBtn = document.createElement('a');
+            zoomBtn.href = "#";
+            zoomBtn.innerHTML = "📍 Zoom ke Area";
+            zoomBtn.style.color = "blue";
+            zoomBtn.onclick = function(e) {
+              e.preventDefault();
+              map.fitBounds(layer.getBounds());
+              layer.openPopup();
+            };
+
+            listItem.innerHTML = `<b>Poligon 2025</b><br>`;
+            listItem.appendChild(zoomBtn);
+            polygonContainer.appendChild(listItem);
           }
         }).addTo(map);
       });
